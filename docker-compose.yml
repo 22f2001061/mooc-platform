@@ -27,7 +27,7 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: config.settings.production
       SECRET_KEY: ${SECRET_KEY:-super-secret-change-in-production}
-      DATABASE_URL: postgres://mooc:moocpass@db:5432/mooc
+      DATABASE_URL: ${DATABASE_URL:-postgres://mooc:moocpass@db:5432/mooc}
       ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
     volumes:
       - static_files:/app/staticfiles
