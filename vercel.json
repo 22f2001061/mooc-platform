@@ -4,10 +4,7 @@
     {
       "src": "config/wsgi.py",
       "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb",
-        "runtime": "python3.12"
-      }
+      "config": { "maxLambdaSize": "15mb" }
     }
   ],
   "routes": [
@@ -15,5 +12,9 @@
       "src": "/(.*)",
       "dest": "config/wsgi.py"
     }
-  ]
+  ],
+  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "config.settings.production"
+  }
 }
