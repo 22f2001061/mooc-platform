@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lesson.title }} — {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="lesson-layout">
+
+  <!-- Sidebar: lesson list with progress indicators -->
+  <aside class="lesson-sidebar">
+    <h3><a href="{{ course.get_absolute_url }}">← {{ course.title }}</a></h3>
+    <ul class="sidebar-lessons">
+      {% for l in all_lessons %}
+        <li class="sidebar-lesson {% if l.id == lesson.id %}active{% endif %}">
+          <a href="{{ l.get_absolute_url }}">
+            {% if l.id in visited_ids %}
+              <span class="check">✅</span>
+            {% else %}
+              <span class="check unvisited">○</span>
+            {% endif %}
+            {% if l.id == lesson.id %}
+              <strong>{{ l.title }}</strong>
+            {% else %}
+              {{ l.title }}
+            {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
+
+  <!-- Main lesson content -->
+  <article class="lesson-content">
+    <p class="breadcrumb">
+      <a href="{% url 'courses:list' %}">Courses</a> /
+      <a href="{{ course.get_absolute_url }}">{{ course.title }}</a> /
+      {{ lesson.title }}
+    </p>
+
+    <h1>{{ lesson.title }}</h1>
+
+    {# ── Video section ──────────────────────────────────────────────── #}
+    {% if lesson.video_type == 'youtube' %}
+      {# Privacy-enhanced embed via youtube-nocookie.com #}
+      <div class="video-container">
+        <iframe
+          src="{{ lesson.youtube_embed_url }}"
+          title="{{ lesson.title }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+
+    {% elif lesson.video_type == 'direct' %}
+      {# Native HTML5 video player for direct mp4/webm URLs #}
+      <div class="video-container-native">
+        <video controls preload="metadata" class="native-video">
+          <source src="{{ lesson.video_url }}" />
+          Your browser does not support the video tag.
+          <a href="{{ lesson.video_url }}">Download video</a>
+        </video>
+      </div>
+    {% endif %}
+
+    {# ── Text content ───────────────────────────────────────────────── #}
+    {% if lesson.content %}
+      <div class="lesson-body">
+        {{ lesson.content|linebreaks }}
+      </div>
+    {% elif lesson.video_type == 'none' %}
+      <div class="lesson-body muted">
+        <p>No content has been added for this lesson yet.</p>
+      </div>
+    {% endif %}
+
+    <div class="lesson-nav">
+      <a href="{{ course.get_absolute_url }}" class="btn-secondary">← Back to course</a>
+    </div>
+  </article>
+
+</div>
+{% endblock %}

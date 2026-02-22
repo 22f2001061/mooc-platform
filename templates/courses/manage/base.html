@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="manage-layout">
+  <aside class="manage-sidebar">
+    <div class="manage-sidebar-header">
+      <span class="manage-badge">Staff</span>
+      <h3>Management</h3>
+    </div>
+    <nav class="manage-nav">
+      <a href="{% url 'courses:manage_dashboard' %}" class="manage-nav-link {% block nav_dashboard %}{% endblock %}">
+        📋 All Courses
+      </a>
+      <a href="{% url 'courses:manage_course_create' %}" class="manage-nav-link {% block nav_create %}{% endblock %}">
+        ➕ New Course
+      </a>
+      <hr class="manage-divider" />
+      <a href="{% url 'courses:list' %}" class="manage-nav-link">
+        👁 View Catalog
+      </a>
+      <a href="/admin/" class="manage-nav-link">
+        ⚙️ Django Admin
+      </a>
+    </nav>
+  </aside>
+
+  <div class="manage-main">
+    {% block manage_content %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

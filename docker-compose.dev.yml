@@ -1,0 +1,15 @@
+version: "3.9"
+
+# Development override: uses SQLite, mounts source for hot reload
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.development
+      SECRET_KEY: dev-secret-key-not-for-production
+    volumes:
+      - .:/app
+    entrypoint: []  # override production entrypoint

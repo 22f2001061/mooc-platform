@@ -1,0 +1,51 @@
+{% extends "courses/manage/base.html" %}
+
+{% block title %}{{ action }} Course{% endblock %}
+{% block nav_create %}{% if action == "Create" %}active{% endif %}{% endblock %}
+
+{% block manage_content %}
+<div class="manage-header">
+  <div>
+    {% if course %}
+      <p class="breadcrumb">
+        <a href="{% url 'courses:manage_dashboard' %}">Courses</a> /
+        <a href="{% url 'courses:manage_course_detail' course.pk %}">{{ course.title }}</a> /
+        Edit
+      </p>
+    {% else %}
+      <p class="breadcrumb"><a href="{% url 'courses:manage_dashboard' %}">Courses</a> / New</p>
+    {% endif %}
+    <h1>{{ action }} Course</h1>
+  </div>
+</div>
+
+<div class="manage-form-wrap">
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="form-label">
+          {{ field.label }}
+          {% if field.field.required %}<span class="required">*</span>{% endif %}
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <p class="form-hint">{{ field.help_text }}</p>
+        {% endif %}
+        {% for error in field.errors %}
+          <p class="form-error">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">{{ action }} Course</button>
+      {% if course %}
+        <a href="{% url 'courses:manage_course_detail' course.pk %}" class="btn-secondary">Cancel</a>
+      {% else %}
+        <a href="{% url 'courses:manage_dashboard' %}" class="btn-secondary">Cancel</a>
+      {% endif %}
+    </div>
+  </form>
+</div>
+{% endblock %}

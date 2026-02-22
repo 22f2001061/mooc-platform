@@ -1,0 +1,110 @@
+{% extends "courses/manage/base.html" %}
+
+{% block title %}{{ action }} Lesson — {{ course.title }}{% endblock %}
+
+{% block manage_content %}
+<div class="manage-header">
+  <div>
+    <p class="breadcrumb">
+      <a href="{% url 'courses:manage_dashboard' %}">Courses</a> /
+      <a href="{% url 'courses:manage_course_detail' course.pk %}">{{ course.title }}</a> /
+      {% if lesson %}Edit Lesson{% else %}Add Lesson{% endif %}
+    </p>
+    <h1>{{ action }} Lesson</h1>
+    <p class="muted">Course: {{ course.title }}</p>
+  </div>
+</div>
+
+<div class="manage-form-wrap">
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% for field in form %}
+      <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="form-label">
+          {{ field.label }}
+          {% if field.field.required %}<span class="required">*</span>{% endif %}
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <p class="form-hint">{{ field.help_text }}</p>
+        {% endif %}
+        {% for error in field.errors %}
+          <p class="form-error">{{ error }}</p>
+        {% endfor %}
+
+        {# Live preview area for the video URL field #}
+        {% if field.html_name == 'video_url' %}
+          <div id="video-preview-wrap" class="video-preview-wrap" style="display:none">
+            <p class="form-hint" style="margin-bottom:.5rem">Preview:</p>
+            <div class="video-container">
+              <iframe id="video-preview-frame"
+                src=""
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">{{ action }} Lesson</button>
+      <a href="{% url 'courses:manage_course_detail' course.pk %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+{# Existing video preview if editing #}
+{% if lesson and lesson.youtube_embed_url %}
+  <div class="manage-section" style="margin-top:2rem">
+    <h3>Current Video Preview</h3>
+    <div class="video-container">
+      <iframe
+        src="{{ lesson.youtube_embed_url }}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+{% endif %}
+
+<script>
+// Live YouTube preview as staff types/pastes a URL
+(function () {
+  const input = document.getElementById('id_video_url');
+  const wrap  = document.getElementById('video-preview-wrap');
+  const frame = document.getElementById('video-preview-frame');
+  if (!input || !wrap || !frame) return;
+
+  const YT_RE = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_\-]{11})/;
+
+  function tryPreview(url) {
+    const m = YT_RE.exec(url);
+    if (m) {
+      const embedUrl = 'https://www.youtube-nocookie.com/embed/' + m[1] + '?rel=0&modestbranding=1';
+      frame.src = embedUrl;
+      wrap.style.display = 'block';
+    } else {
+      frame.src = '';
+      wrap.style.display = 'none';
+    }
+  }
+
+  // Preview on paste (fastest feedback) and on input change
+  input.addEventListener('paste', function (e) {
+    // paste event fires before value updates — use setTimeout
+    setTimeout(() => tryPreview(input.value.trim()), 50);
+  });
+  input.addEventListener('input', function () {
+    tryPreview(input.value.trim());
+  });
+
+  // Show preview immediately if field is pre-filled (edit mode)
+  if (input.value.trim()) tryPreview(input.value.trim());
+})();
+</script>
+{% endblock %}

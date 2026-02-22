@@ -1,0 +1,119 @@
+[
+  {
+    "model": "courses.course",
+    "pk": 1,
+    "fields": {
+      "title": "Introduction to Python",
+      "short_description": "Learn Python from scratch. Variables, loops, functions, and more.",
+      "description": "This comprehensive course takes you from zero to confident Python programmer. You will learn variables, data types, control flow, functions, modules, file I/O, and object-oriented programming through hands-on projects.",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "courses.course",
+    "pk": 2,
+    "fields": {
+      "title": "Django for Beginners",
+      "short_description": "Build real web applications with Django. Models, views, templates, and deployment.",
+      "description": "Django is the most popular Python web framework. In this course you will build several real-world web applications, learning models, migrations, views, templates, authentication, and how to deploy to production.",
+      "created_at": "2024-01-02T00:00:00Z",
+      "updated_at": "2024-01-02T00:00:00Z"
+    }
+  },
+  {
+    "model": "courses.course",
+    "pk": 3,
+    "fields": {
+      "title": "PostgreSQL Fundamentals",
+      "short_description": "Master relational databases with PostgreSQL. SQL, indexes, and performance.",
+      "description": "This course covers relational database design, SQL queries from basic to advanced, indexing strategies, query optimization, transactions, and common patterns for production databases.",
+      "created_at": "2024-01-03T00:00:00Z",
+      "updated_at": "2024-01-03T00:00:00Z"
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 1,
+    "fields": {
+      "course": 1,
+      "title": "Setting Up Your Environment",
+      "order": 10,
+      "video_url": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+      "video_type": "youtube",
+      "content": "In this lesson we install Python 3.12 and set up a virtual environment.\n\nOpen your terminal and run:\n\n  python -m venv venv\n  source venv/bin/activate  # Windows: venv\\Scripts\\activate\n\nYou are now inside a virtual environment. All packages installed here are isolated from your system Python.",
+      "created_at": "2024-01-01T01:00:00Z",
+      "updated_at": "2024-01-01T01:00:00Z"
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 2,
+    "fields": {
+      "course": 1,
+      "title": "Variables and Data Types",
+      "order": 20,
+      "video_url": "https://www.youtube.com/watch?v=cQT33yu9pY8",
+      "video_type": "youtube",
+      "content": "Python has dynamic typing — you don't declare types explicitly.\n\nCommon types:\n- int: whole numbers (42)\n- float: decimal numbers (3.14)\n- str: text ('hello')\n- bool: True or False\n- list: ordered collection [1, 2, 3]\n- dict: key-value pairs {'name': 'Alice'}\n\nAssignment is simple: x = 10",
+      "created_at": "2024-01-01T02:00:00Z",
+      "updated_at": "2024-01-01T02:00:00Z"
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 3,
+    "fields": {
+      "course": 1,
+      "title": "Functions and Modules",
+      "order": 30,
+      "video_url": "",
+      "video_type": "none",
+      "content": "Functions let you encapsulate reusable logic.\n\ndef greet(name):\n    return f'Hello, {name}!'\n\nprint(greet('World'))  # Hello, World!\n\nModules are Python files. Import them with: import math",
+      "created_at": "2024-01-01T03:00:00Z",
+      "updated_at": "2024-01-01T03:00:00Z"
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 4,
+    "fields": {
+      "course": 2,
+      "title": "What is Django?",
+      "order": 10,
+      "video_url": "https://www.youtube.com/watch?v=rHux0gMZ3Eg",
+      "video_type": "youtube",
+      "content": "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It follows the MTV (Model-Template-View) pattern.\n\nInstall it with: pip install Django\n\nCreate a project: django-admin startproject myproject .",
+      "created_at": "2024-01-02T01:00:00Z",
+      "updated_at": "2024-01-02T01:00:00Z"
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 5,
+    "fields": {
+      "course": 2,
+      "title": "Models and Migrations",
+      "order": 20,
+      "video_url": "",
+      "video_type": "none",
+      "content": "Django models are Python classes that map to database tables.\n\nclass Article(models.Model):\n    title = models.CharField(max_length=255)\n    body = models.TextField()\n    created_at = models.DateTimeField(auto_now_add=True)\n\nCreate the table: python manage.py makemigrations && python manage.py migrate",
+      "created_at": "2024-01-02T02:00:00Z",
+      "updated_at": "2024-01-02T02:00:00Z"
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 6,
+    "fields": {
+      "course": 3,
+      "title": "Introduction to SQL",
+      "order": 10,
+      "video_url": "https://www.youtube.com/watch?v=HXV3zeQKqGY",
+      "video_type": "youtube",
+      "content": "SQL (Structured Query Language) lets you interact with relational databases.\n\nBasic query: SELECT * FROM users WHERE active = true;\n\nInsert: INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com');\n\nUpdate: UPDATE users SET name = 'Bob' WHERE id = 1;",
+      "created_at": "2024-01-03T01:00:00Z",
+      "updated_at": "2024-01-03T01:00:00Z"
+    }
+  }
+]

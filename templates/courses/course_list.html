@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Course Catalog{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Course Catalog</h1>
+  <p class="subtitle">Browse all available courses</p>
+</div>
+
+{% if courses %}
+  <div class="course-grid">
+    {% for course in courses %}
+      <a href="{{ course.get_absolute_url }}" class="course-card">
+        <h2>{{ course.title }}</h2>
+        <p>{{ course.short_description }}</p>
+        <span class="card-link">View course →</span>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <p>No courses available yet. Check back soon!</p>
+  </div>
+{% endif %}
+{% endblock %}

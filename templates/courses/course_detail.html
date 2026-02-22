@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="course-detail">
+  <div class="course-header">
+    <h1>{{ course.title }}</h1>
+
+    <div class="enrollment-status">
+      {% if not user.is_authenticated %}
+        <div class="status-box status-info">
+          <a href="{% url 'accounts:login' %}?next={{ request.path }}">Log in to enroll</a>
+        </div>
+      {% elif is_enrolled %}
+        <div class="status-box status-success">
+          ✅ You are enrolled in this course
+        </div>
+      {% else %}
+        <form method="post" action="{% url 'enrollments:enroll' course.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn-primary btn-large">Enroll Now</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="course-description">
+    <h2>About this course</h2>
+    <p>{{ course.description }}</p>
+  </div>
+
+  <div class="lessons-section">
+    <h2>Lessons ({{ lessons|length }})</h2>
+    {% if lessons %}
+      <ol class="lesson-list">
+        {% for lesson in lessons %}
+          <li class="lesson-item">
+            {% if is_enrolled %}
+              <a href="{{ lesson.get_absolute_url }}">{{ lesson.title }}</a>
+            {% else %}
+              <span class="lesson-locked">{{ lesson.title }}</span>
+              {% if not user.is_authenticated %}
+                <small>(log in &amp; enroll to access)</small>
+              {% else %}
+                <small>(enroll to access)</small>
+              {% endif %}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <p class="muted">No lessons added yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

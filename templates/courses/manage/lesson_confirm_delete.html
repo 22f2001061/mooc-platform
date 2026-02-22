@@ -1,0 +1,27 @@
+{% extends "courses/manage/base.html" %}
+
+{% block title %}Delete Lesson{% endblock %}
+
+{% block manage_content %}
+<div class="manage-header">
+  <h1>Delete Lesson</h1>
+</div>
+
+<div class="danger-zone">
+  <h2>⚠️ Are you sure?</h2>
+  <p>
+    You are about to permanently delete lesson <strong>"{{ lesson.title }}"</strong>
+    from course <strong>"{{ course.title }}"</strong>.
+  </p>
+  <p>All student progress records for this lesson will also be removed.</p>
+  <p>This action <strong>cannot be undone</strong>.</p>
+
+  <div class="form-actions" style="margin-top:1.5rem">
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn-danger">Yes, delete lesson</button>
+    </form>
+    <a href="{% url 'courses:manage_course_detail' course.pk %}" class="btn-secondary">Cancel</a>
+  </div>
+</div>
+{% endblock %}

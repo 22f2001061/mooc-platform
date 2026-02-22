@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}MOOC Platform{% endblock %}</title>
+  <link rel="stylesheet" href="{% load static %}{% static 'css/main.css' %}" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="{% url 'courses:list' %}">📚 MOOC</a>
+      <div class="nav-links">
+        <a href="{% url 'courses:list' %}">Courses</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'courses:my_courses' %}">My Courses</a>
+          {% if user.is_staff %}
+            <a href="{% url 'courses:manage_dashboard' %}" class="nav-staff-link">⚙ Manage</a>
+          {% endif %}
+          <span class="nav-user">{{ user.username }}</span>
+          <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn-link">Log out</button>
+          </form>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">Log in</a>
+          <a href="{% url 'accounts:signup' %}" class="btn-primary">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message message-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <p>MOOC Platform &copy; {% now "Y" %}</p>
+  </footer>
+</body>
+</html>

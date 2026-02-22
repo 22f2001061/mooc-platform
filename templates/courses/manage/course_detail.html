@@ -1,0 +1,78 @@
+{% extends "courses/manage/base.html" %}
+
+{% block title %}Manage: {{ course.title }}{% endblock %}
+
+{% block manage_content %}
+<div class="manage-header">
+  <div>
+    <p class="breadcrumb"><a href="{% url 'courses:manage_dashboard' %}">Courses</a> / {{ course.title }}</p>
+    <h1>{{ course.title }}</h1>
+    <p class="muted">{{ course.short_description }}</p>
+  </div>
+  <div class="manage-header-actions">
+    <a href="{% url 'courses:manage_course_edit' course.pk %}" class="btn-secondary">Edit Course</a>
+    <a href="{% url 'courses:detail' course.pk %}" class="btn-secondary" target="_blank">Preview ↗</a>
+    <a href="{% url 'courses:manage_course_delete' course.pk %}" class="btn-danger">Delete</a>
+  </div>
+</div>
+
+<div class="manage-section">
+  <div class="manage-section-header">
+    <h2>Lessons <span class="badge">{{ course.lessons.count }}</span></h2>
+    <a href="{% url 'courses:manage_lesson_create' course.pk %}" class="btn-primary">+ Add Lesson</a>
+  </div>
+
+  {% if course.lessons.all %}
+    <div class="manage-table-wrap">
+      <table class="manage-table">
+        <thead>
+          <tr>
+            <th style="width:60px">#</th>
+            <th>Title</th>
+            <th>Video</th>
+            <th>Content</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lesson in course.lessons.all %}
+            <tr>
+              <td class="muted">{{ lesson.order }}</td>
+              <td>{{ lesson.title }}</td>
+              <td>
+                {% if lesson.video_type == 'youtube' %}
+                  <span class="video-badge video-badge--youtube">▶ YouTube</span>
+                {% elif lesson.video_type == 'direct' %}
+                  <span class="video-badge video-badge--direct">▶ Video</span>
+                {% else %}
+                  <span class="muted">—</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if lesson.content %}
+                  <span class="muted">✓ has text</span>
+                {% else %}
+                  <span class="muted">—</span>
+                {% endif %}
+              </td>
+              <td class="table-actions">
+                <a href="{% url 'courses:manage_lesson_edit' course.pk lesson.pk %}">Edit</a>
+                <a href="{% url 'courses:lesson_detail' course.pk lesson.pk %}" target="_blank">Preview ↗</a>
+                <a href="{% url 'courses:manage_lesson_delete' course.pk lesson.pk %}" class="danger-link">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:.5rem;font-size:.85rem;">
+      Lessons are ordered by the # column (ascending). Edit a lesson to change its order.
+    </p>
+  {% else %}
+    <div class="empty-state">
+      <p>No lessons yet. Add the first lesson to this course.</p>
+      <a href="{% url 'courses:manage_lesson_create' course.pk %}" class="btn-primary">Add Lesson</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
