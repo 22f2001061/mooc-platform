@@ -1,9 +1,23 @@
 """
 Development settings — SQLite, debug on, verbose logging.
 """
+import sys
 from .base import *  # noqa
 
 DEBUG = True
+
+
+TESTING = "test" in sys.argv
+
+if TESTING:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
 
 DATABASES = {
     "default": {
