@@ -2,6 +2,17 @@
 
 A clean, scalable MOOC-style course catalog built with Django + PostgreSQL.
 
+
+## One-Command Local Demo (Docker + Sqlite)
+
+Creates sample deployment with docker and sample data added to test locally faster.
+
+```bash
+chmod +x local_run.sh
+./local_run.sh
+```
+
+
 ## What's included
 
 **Student features**
@@ -20,6 +31,7 @@ A clean, scalable MOOC-style course catalog built with Django + PostgreSQL.
 - Lessons support: YouTube (any URL format), direct video (.mp4/.webm), or text-only
 - Django Admin CRUD with inline lesson editor and video preview
 - Staff nav link visible to `is_staff` users automatically
+
 
 ## Architecture
 

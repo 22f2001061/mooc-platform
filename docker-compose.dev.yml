@@ -1,5 +1,3 @@
-version: "3.9"
-
 # Development override: uses SQLite, mounts source for hot reload
 services:
   web:
