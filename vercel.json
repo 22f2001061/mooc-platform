@@ -14,7 +14,4 @@
     }
   ],
   "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "config.settings.production"
-  }
 }
