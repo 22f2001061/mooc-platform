@@ -45,6 +45,9 @@ jobs:
 
       - name: Run migrations
         run: python manage.py migrate
+      
+      - name: Run static files collection
+        run: python manage.py collectstatic --noinput
 
       - name: Run tests
         run: python manage.py test apps --verbosity=2
