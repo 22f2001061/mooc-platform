@@ -1,4 +1,4 @@
-# MOOC Course Catalog
+# MOOC Course Catalog | [Live Demo](https://mooc-platform-deploy.vercel.app/)
 
 A clean, scalable MOOC-style course catalog built with Django + PostgreSQL.
 
